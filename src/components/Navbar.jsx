@@ -21,7 +21,7 @@ const Navbar = () => {
         </div>
 
         {/* login button */}
-        <EasyButton label={"SIGN IN"} className=''/>
+        <EasyButton label={"SIGN IN My Nigga"} className=''/>
 
     </nav>
   )
