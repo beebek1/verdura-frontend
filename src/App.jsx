@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import Home from './pages/Home';
 import SignupIn from './pages/SignupIndi';
 import CreateCampaign from './pages/CreateCampaign';  
+import CreateBlog from './pages/CreateBlog';
+import BlogList from './pages/BlogList';
 
 
 function AppWrapper() {
@@ -16,6 +18,8 @@ function AppWrapper() {
         <Route path="/" element={<Home />} />
         <Route path="/signupin" element={<SignupIn />} />
         <Route path="/create" element={<CreateCampaign />} />
+        <Route path="/createblog" element={<CreateBlog />} />
+        <Route path="/blogs" element={<BlogList />} />
       </Routes>
     </>
   );
