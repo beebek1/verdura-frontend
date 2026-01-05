@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../components/NavbarInd'
 import forestImage from '../assets/forest.png'
 import cleaning from '../assets/clean.png'
+import Footer from '../components/Footer'
 
 const IndDashboard = () => {
   return (
@@ -47,12 +48,7 @@ const IndDashboard = () => {
       />
     </section>
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="text-center">
-          <h2 className="text-4xl font-bold mb-2">Verdura</h2>
-          <p className="text-gray-400 text-sm">copyright © 2025 Impact Teams, Inc.</p>
-        </div>
-      </footer>
+      <Footer/>
     </div>
     </div>
   )

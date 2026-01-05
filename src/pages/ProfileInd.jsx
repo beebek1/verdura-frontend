@@ -1,6 +1,7 @@
 import React from 'react'
 import bird from '../assets/birds.png'
 import Navbar from '../components/NavbarInd'
+import Footer from '../components/Footer'
 
 const ProfileInd = () => {
   return (
@@ -122,12 +123,7 @@ const ProfileInd = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-slate-800 text-white py-8 w-full">
-        <div className="text-center">
-          <h2 className="text-4xl font-bold mb-2">Verdura</h2>
-          <p className="text-sm text-gray-400">copyright © 2025 Impact Teams, Inc.</p>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   )
 }

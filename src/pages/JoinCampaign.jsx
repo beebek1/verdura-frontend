@@ -1,5 +1,6 @@
 import React from 'react'
 import Navbar from '../components/NavbarInd'
+import Footer from '../components/Footer'
 
 const CampaignCard = ({ title, status, volunteers, currentVolunteers }) => {
   const isActive = status === 'Active';
@@ -40,6 +41,7 @@ const JoinCampaign = () => {
       volunteers: 20,
       currentVolunteers: 12
     },
+    
     // New campaigns will be added here dynamically when organizations create them
   ];
 
@@ -64,12 +66,7 @@ const JoinCampaign = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-2">Verdura</h2>
-          <p className="text-sm text-gray-400">copyright © 2025 Impact Teams, Inc.</p>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   )
 }
