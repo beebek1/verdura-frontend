@@ -10,6 +10,11 @@ import ForgetPassword from './pages/ForgetPassword.jsx';
 
 
 
+import Register from "./pages/register";
+import { Toaster } from "react-hot-toast";
+//import Footers from './components/Footers';
+import VerduraCampaign from "./pages/campaign";
+import Footer from "./components/Footers";
 function App() {
 
   return (
@@ -27,4 +32,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
