@@ -8,7 +8,7 @@ import OrgDashboard from './organization/OrgDashboard'
 const Home = () => {
 
   // TEMP: replace with backend role later
-  const role = "organization";
+  const role = "individual";
 
   return (
     <>

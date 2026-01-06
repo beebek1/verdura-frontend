@@ -1,7 +1,10 @@
 import React from 'react';
 import BlogCard from '../components/BlogCard';
+import BlogOrg from './organization/BlogOrg';
 
 const Blogs = () => {
+
+  const role = "organization";
   const blogs = [
     {
       id: 1,
@@ -50,29 +53,35 @@ const Blogs = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 text-center mb-8">
-          Blogs, Spotlights & News
-        </h1>
-        
-        <div className="space-y-4">
-          {blogs.map((blog) => (
-            <BlogCard
-              key={blog.id}
-              author={blog.author}
-              authorImage={blog.authorImage}
-              badge={blog.badge}
-              badgeColor={blog.badgeColor}
-              title={blog.title}
-              excerpt={blog.excerpt}
-              date={blog.date}
-              views={blog.views}
-            />
-          ))}
+    <>
+    {role === "organization" && <BlogOrg/>}
+    {role === "individual" &&
+
+      <div className="min-h-screen bg-gray-50 py-8 px-4">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-3xl font-bold text-gray-900 text-center mb-8">
+            Blogs, Spotlights & News
+          </h1>
+          
+          <div className="space-y-4">
+            {blogs.map((blog) => (
+              <BlogCard
+                key={blog.id}
+                author={blog.author}
+                authorImage={blog.authorImage}
+                badge={blog.badge}
+                badgeColor={blog.badgeColor}
+                title={blog.title}
+                excerpt={blog.excerpt}
+                date={blog.date}
+                views={blog.views}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    }
+    </>
   );
 };
 

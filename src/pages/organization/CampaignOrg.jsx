@@ -37,17 +37,6 @@ export default function VerduraCampaign() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-slate-800 text-white py-4 px-8">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-3xl font-bold">Verdura</h1>
-          <nav className="flex gap-8">
-            <a href="#" className="hover:text-gray-300 transition">Blog</a>
-            <a href="#" className="hover:text-gray-300 transition">Campaigns</a>
-            <a href="#" className="hover:text-gray-300 transition">Profile</a>
-          </nav>
-        </div>
-      </header>
 
       {/* Hero Section */}
       <div 

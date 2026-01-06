@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function BlogList() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+
+  const navigate = useNavigate();
 
   const blogs = [
     {
@@ -39,7 +42,9 @@ export default function BlogList() {
   };
 
   const handleCreateBlog = () => {
-    console.log('Create new blog');
+    navigate('/create-Blog');
+
+    console.log("im here")
   };
 
   return (

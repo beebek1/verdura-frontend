@@ -4,34 +4,40 @@ import LoginInd from './pages/auth/Login.jsx';
 import {Toaster} from 'react-hot-toast';
 
 
-import OrgDashboard from './pages/OrgDashboard.jsx';
 import ProfileInd from './pages/ProfileInd.jsx';
 import JoinCampaign from './pages/JoinCampaign.jsx';
-import IndDashboard from './pages/IndDashboard.jsx';
 import ForgetPassword from './pages/auth/ForgetPassword.jsx';
 import SignUpInd from './pages/auth/Signup.jsx';
 import Login from './pages/auth/Login.jsx';
-// import Registration from './pages/profile.jsx'
+import Dashboard from './pages/Home.jsx';
+import NavbarInd from './components/Navbar.jsx';
+import Navbar from './components/Navbar.jsx';
+import Blog from './pages/Blog.jsx';
+import Footer from './components/Footer.jsx'
+import CreateBlog from './pages/organization/CreateBlog.jsx'
+
+import Campaign from './pages/JoinCampaign.jsx'
+
 function App() {
 
   return (
     <Router>
+      <Navbar></Navbar>
       <Toaster/>
       <Routes>
-          <Route path='/' element={<LoginInd/>}/>
-          <Route path='/orgdashboard' element={<OrgDashboard/>}/>
           <Route path='/profileind' element={<ProfileInd/>}/>
-          <Route path='/joincampaign' element={<JoinCampaign/>}/>
-          <Route path='/inddashboard' element={<IndDashboard/>}/>
 
 
+          <Route path='/blog' element={<Blog/>}/>
           <Route path='/reset-password' element={<ForgetPassword/>}/>
           <Route path='/signin' element={<Login/>}/>
           <Route path='/signup' element={<SignUpInd/>}/>
-
-
-          {/* <Route path='/temp' element={<Registration/>}/> */}
+          <Route path='/' element={<Dashboard/>}/>
+          <Route path='/campaigns' element={<Campaign/>}/>
+          <Route path='/create-blog' element={<CreateBlog/>}/>
       </Routes>
+
+      <Footer/>
     </Router>
   )
 }

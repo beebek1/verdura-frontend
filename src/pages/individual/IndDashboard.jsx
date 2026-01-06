@@ -1,15 +1,11 @@
 import React from 'react'
-import Navbar from '../components/NavbarInd'
-import forestImage from '../assets/forest.png'
-import cleaning from '../assets/clean.png'
-import Footer from '../components/Footer'
+import forestImage from '../../assets/footerImage.png'
+import cleaning from '../../assets/clean.png'
 
 const IndDashboard = () => {
   return (
     <div>
       <div className="min-h-screen bg-white">
-      {/* Navbar */}
-      <Navbar transparent={true} />
 
       {/* Hero Section */}
       <section className="relative h-screen overflow-hidden">
@@ -47,8 +43,6 @@ const IndDashboard = () => {
         className="w-full h-full object-cover"
       />
     </section>
-      {/* Footer */}
-      <Footer/>
     </div>
     </div>
   )

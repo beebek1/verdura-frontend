@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import NavbarInd from '../components/NavbarInd';
+import NavbarInd from '../components/Navbar';
 
 const CampaignCard = ({ id, title, status, volunteers, currentVolunteers, description, location, date }) => {
   const [isJoined, setIsJoined] = useState(false);

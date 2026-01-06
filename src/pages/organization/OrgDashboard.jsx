@@ -1,15 +1,11 @@
 import React from 'react'
-import Navbar from '../components/NavbarOrg'
-import forestImage from '../assets/forest.png'
-import cleaning from '../assets/clean.png'
-import Footer from '../components/Footer'
+import forestImage from '../../assets/forest.png'
+import cleaning from '../../assets/clean.png'
+import Footer from '../../components/Footer'
 
 const OrgDashboard = () => {
   return (
     <div className="min-h-screen bg-white">
-      {/* Navbar */}
-      <Navbar transparent={true} />
-
       {/* Hero Section */}
       <section className="relative h-screen overflow-hidden">
         {/* Background image */}
@@ -40,7 +36,7 @@ const OrgDashboard = () => {
             <div className="flex-1">
               <p className="text-gray-500 uppercase tracking-wider mb-4 font-semibold">ACT NOW</p>
               <h3 className="text-5xl font-bold text-green-800 mb-6 leading-tight">
-                We lose forests every single minute
+                We lose forests every single minute im from organization
               </h3>
               <p className="text-gray-700 text-lg mb-8">
                 An area of rainforest the size of 20 football fields disappears every minute due to logging and agriculture.
