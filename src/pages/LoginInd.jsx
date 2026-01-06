@@ -12,21 +12,15 @@ import {useNavigate} from 'react-router-dom'
 const LoginInd = () => {
 
     const navigate = useNavigate()
-
     const [showPassword, setShowPassword] = useState(false)
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
     const [formData, setFormData] = useState({
         email:'',
         password:'',
-        confirmPassword:'',
-        rememberMe: false,
     });
     const handleChange = (e) =>{
-        const value = e.target.type === 'checkbox'? e.target.checked : e.target.value;
         setFormData({
             ...formData,
-            [e.target.name]: value,
+            [e.target.name]:e.target.value,
         });
     };
 
@@ -40,18 +34,6 @@ const LoginInd = () => {
             toast.error("Password is required");
             return false;
         }
-        if(!formData.confirmPassword.trim()){
-            toast.error("Confirm password is required");
-            return false;
-        }
-        if(formData.password !== formData.confirmPassword){
-            toast.error("Passwords do not match");
-            return false;
-        }
-        if(!formData.rememberMe){
-            toast.error("Please tick Remember Me")
-            return false;
-        }
         return true;
     }
 
@@ -63,8 +45,6 @@ const LoginInd = () => {
             setFormData({
                 email:'',
                 password:'',
-                confirmPassword:'',
-                rememberMe:false,
             });
             setTimeout(() =>{
                 navigate('/inddashboard');
@@ -142,25 +122,6 @@ const LoginInd = () => {
             </button>
             </div>
 
-            <div className="relative mb-6">
-                <input 
-                type={showConfirmPassword? "text": "password"}
-                name="confirmPassword"
-                placeholder='********' 
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                className="w-full border p-3 mt-1 outline-none pr-10"
-            />
-            <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-            >
-                    {showConfirmPassword? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-            </button>
-
-            </div>
-
             <p className='text-right'>
                 <span 
                 onClick={() => navigate('/forgetpassword')}
@@ -170,9 +131,6 @@ const LoginInd = () => {
             <div className='flex items-center gap-2 mb-6'>
                 <input 
                 type="checkbox" 
-                name="rememberMe"
-                checked={formData.rememberMe}
-                onChange={handleChange}
                 className='w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500' 
                 />
                 <span className='ml-2 text-gray-500'>Remember me</span>

@@ -7,7 +7,7 @@ const ProfileInd = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 w-full">
       {/* Navbar */}
-      <Navbar transparent={false}/>
+
       
       {/* Main Content */}
       <div className="flex-grow max-w-5xl mx-auto px-0 py-8 w-full">

@@ -5,6 +5,9 @@ import bird from '../assets/birds.png'
 
 const ForgetPassword = () => {
     const navigate = useNavigate()
+    // const [email, setEmail] = useState('')
+
+    // const handdlechange = 
 
     return (
         <div className="flex h-screen">
