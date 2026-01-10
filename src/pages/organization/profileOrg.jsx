@@ -591,9 +591,6 @@ export default function OrganizationProfile() {
                   {/* Main Container */}
                   <div className="max-w-4xl mx-auto px-4 py-10">
                     <div className="bg-white rounded-lg shadow-md p-8">
-                      {/* Header */}
-                      <h1 className="text-3xl font-bold text-[#1a3a2e] mb-2">Account Settings</h1>
-                      <p className="text-gray-600 text-sm mb-10">{formData.email}</p>
 
                       {/* Profile Section */}
                       <div className="flex flex-col md:flex-row gap-8 mb-10">
@@ -603,9 +600,6 @@ export default function OrganizationProfile() {
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
                               Organization Bio
                             </label>
-                            <p className="text-xs text-gray-500 mb-3">
-                              A community-driven environmental group focused on reforestation and waste reduction projects.
-                            </p>
                             <textarea
                               name="bio"
                               value={formData.bio}
@@ -725,23 +719,11 @@ export default function OrganizationProfile() {
                       {/* Save Button */}
                       <div className="flex justify-end mb-8">
                         <button
-                          onClick={handleSave}
+                          onClick={handleSaveProfile}
                           className="px-8 py-3 bg-[#2d5f4d] text-white font-semibold rounded-md hover:bg-[#1f4035] transition-colors"
                         >
-                          SAVE CHANGES56
+                          SAVE CHANGES
                         </button>
-                      </div>
-
-                      {/* Danger Zone */}
-                      <div className="border-t border-gray-200 pt-6">
-                        <div className="flex gap-6">
-                          <button className="text-red-600 font-semibold hover:underline">
-                            Delete Account
-                          </button>
-                          <button className="text-gray-600 font-semibold hover:underline">
-                            Log out
-                          </button>
-                        </div>
                       </div>
                     </div>
                   </div>
