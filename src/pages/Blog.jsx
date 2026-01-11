@@ -14,9 +14,8 @@ const Blogs = () => {
       badge: "Spotlight",
       badgeColor: "bg-slate-600",
       title: "Importance of Evolution",
-      excerpt: "A blog is a website or a part of a website that is updated regularly with new content, known as posts, displayed in reverse chronological order with the newest articles appearing first. It is a platform for sharing information, thoughts. With over 600 million on the internet, you've likely encountered one or two blogs you've even on one right now ......",
+      content: "A blog is a website or a part of a website that is updated regularly with new content, known as posts, displayed in reverse chronological order with the newest articles appearing first. It is a platform for sharing information, thoughts. With over 600 million on the internet, you've likely encountered one or two blogs you've even on one right now ......",
       date: "31th Dec",
-      views: "670"
     },
     {
       id: 2,
@@ -25,9 +24,8 @@ const Blogs = () => {
       badge: "News",
       badgeColor: "bg-gray-500",
       title: "Importance of Evolution",
-      excerpt: "A blog is a website or a part of a website that is updated regularly with new content, known as posts, displayed in reverse chronological order with the newest articles appearing first. It is a platform for sharing information, thoughts. With over 600 million on the internet, you've likely encountered one or two blogs you've even on one right now ......",
+      content: "A blog is a website or a part of a website that is updated regularly with new content, known as posts, displayed in reverse chronological order with the newest articles appearing first. It is a platform for sharing information, thoughts. With over 600 million on the internet, you've likely encountered one or two blogs you've even on one right now ......",
       date: "31th Dec",
-      views: "670"
     },
     {
       id: 3,
@@ -36,7 +34,7 @@ const Blogs = () => {
       badge: "News",
       badgeColor: "bg-gray-500",
       title: "Importance of Evolution",
-      excerpt: "A blog is a website or a part of a website that is updated regularly with new content, known as posts, displayed in reverse chronological order with the newest articles appearing first. It is a platform for sharing information, thoughts. With over 600 million on the internet, you've likely encountered one or two blogs you've even on one right now ......",
+      content: "A blog is a website or a part of a website that is updated regularly with new content, known as posts, displayed in reverse chronological order with the newest articles appearing first. It is a platform for sharing information, thoughts. With over 600 million on the internet, you've likely encountered one or two blogs you've even on one right now ......",
       date: "31th Dec",
       views: "670"
     },
@@ -47,9 +45,8 @@ const Blogs = () => {
       badge: "Blog",
       badgeColor: "bg-gray-600",
       title: "Importance of Evolution",
-      excerpt: "A blog is a website or a part of a website that is updated regularly with new content, known as posts, displayed in reverse chronological order with the newest articles appearing first. It is a platform for sharing information, thoughts. With over 600 million on the internet, you've likely encountered one or two blogs you've even on one right now ......",
+      content: "A blog is a website or a part of a website that is updated regularly with new content, known as posts, displayed in reverse chronological order with the newest articles appearing first. It is a platform for sharing information, thoughts. With over 600 million on the internet, you've likely encountered one or two blogs you've even on one right now ......",
       date: "31th Dec",
-      views: "670"
     }
   ];
 
@@ -67,13 +64,14 @@ const Blogs = () => {
           <div className="space-y-4">
             {blogs.map((blog) => (
               <BlogCard
-                key={blog.id}
+                key ={blog.id}
+                id={blog.id}
                 author={blog.author}
                 authorImage={blog.authorImage}
                 badge={blog.badge}
                 badgeColor={blog.badgeColor}
                 title={blog.title}
-                excerpt={blog.excerpt}
+                content={blog.content}
                 date={blog.date}
                 views={blog.views}
               />

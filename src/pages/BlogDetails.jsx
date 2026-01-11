@@ -1,19 +1,28 @@
-import React from 'react';
 import { ArrowLeft, Eye, Calendar, Tag } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom'
 
-const BlogDetail = ({ 
-  author,
-  authorImage,
-  badge,
-  badgeColor,
-  title,
-  date,
-  views,
-  content,
-  tags,
-  upvotes,
-  onBack
-}) => {
+const BlogDetail = () => {
+
+  const navigate = useNavigate();
+  const {state} = useLocation();
+  if(!state){
+    return console.log("fuck you bitch")
+  }
+
+  const{
+    author,
+    authorImage,
+    badge,
+    badgeColor,
+    title,
+    date,
+    views,
+    content,
+    tags,
+    upvotes,
+  } = state
+
+  console.log(content)
 
   const handleShare = () => {
     if (navigator.share) {
@@ -29,13 +38,17 @@ const BlogDetail = ({
       console.log('Web Share API not supported in this browser.');
     }
   }
+
+  const navigateRoute = () =>{
+    navigate('/blogs')
+  }
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <button 
-            onClick={onBack}
+            onClick={navigateRoute}
             className="flex items-center gap-2 text-teal-600 hover:text-teal-700 mb-4"
           >
             <ArrowLeft size={20} />

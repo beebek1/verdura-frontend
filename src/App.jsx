@@ -10,6 +10,7 @@ import Login from './pages/auth/Login.jsx';
 import Dashboard from './pages/Home.jsx';
 import Navbar from './components/Navbar.jsx';
 import Blog from './pages/Blog.jsx';
+import BlogDetails from './pages/BlogDetails.jsx';
 import Footer from './components/Footer.jsx';
 import CreateBlog from './pages/organization/CreateBlog.jsx';
 import Climate from './pages/climate.jsx';
@@ -28,7 +29,8 @@ function AppWrapper(){
         <Routes>
           
             <Route path='/profileind' element={<Profile/>}/>
-            <Route path='/blog' element={<Blog/>}/>
+            <Route path='/blogs' element={<Blog/>}/>
+            <Route path='/blogs/:blogId' element={<BlogDetails/>}/>
             <Route path='/reset-password' element={<ForgetPassword/>}/>
             <Route path='/signin' element={<Login/>}/>
             <Route path='/signup' element={<SignUpInd/>}/>

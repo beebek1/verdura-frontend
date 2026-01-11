@@ -10,7 +10,7 @@ const Navbar = ({ transparent = false}) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navItems = [
-    { label: 'Blog', to: '/blog' },
+    { label: 'Blog', to: '/blogs' },
     { label: 'Campaigns', to: '/campaigns' },
     { label: 'Climate', to: '/climate' },
     { label: 'Profile', to: '/profile', icon: User }

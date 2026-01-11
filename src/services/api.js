@@ -24,3 +24,4 @@ const config ={
 }
 export const createUserApi =(data) => Api.post("/api/auth/register",data)
 export const loginUserApi =(data) => Api.post("/api/auth/login",data)
+export const getAllBlogs =() => Api.get("/api/user/get-all-blogs");
