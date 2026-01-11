@@ -3,36 +3,21 @@ import { Link } from 'react-router-dom';
 import { User } from 'lucide-react';
 import { Menu, X } from 'lucide-react';
 import Verdu from '../assets/logo.png';
-import UserRole from '../pages/protect/authRole';
 
 const Navbar = ({ transparent = false}) => {
 
-  const role = UserRole();
-  console.log(role)
-  
   const [hoveredItem, setHoveredItem] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Define navigation items based on role
-  const navItems = {
-    organization: [
-      { label: 'Blog', href: '/blog' },
-      { label: 'Campaigns', href: '/campaigns' },
-      { label: 'Climate', to: '/climate' },
-      { label: 'Profile', href: '/profile', icon: User }
-    ],
-    individual: [
-      { label: 'Blog', to: '/blog' },
-      { label: 'Campaigns', to: '/campaigns' },
-      { label: 'Climate', to: '/climate' },
-      { label: 'Profile', to: '/profileind', icon: User }
-    ]
-  };
-
-  const items = navItems[role] || navItems.individual;
+  const navItems = [
+    { label: 'Blog', to: '/blog' },
+    { label: 'Campaigns', to: '/campaigns' },
+    { label: 'Climate', to: '/climate' },
+    { label: 'Profile', to: '/profile', icon: User }
+  ];
 
   return (
-    <nav className={`w-full px-10 py-4 backdrop-blur-xl ${
+    <nav className={`w-full px-10 py-4 backdrop-blur-xl overscroll-none ${
       transparent
         ? 'bg-transparent absolute top-0 left-0 right-0 z-50'
         : 'bg-gradient-to-br from-[#1a2332]/90 via-[#29313D]/90 to-[#1e2633]/90 border-b border-white/10'
@@ -41,49 +26,28 @@ const Navbar = ({ transparent = false}) => {
       <div className="relative max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo */}
         <div className="cursor-pointer">
-          {role === 'individual' ? (
-            <Link to="/">
-              <img 
-                src={Verdu} 
-                alt="logo" 
-                className="w-40 h-14 object-contain transition-transform duration-300 hover:scale-105"
-              />
-            </Link>
-          ) : (
+          <Link to="/">
             <img 
               src={Verdu} 
               alt="logo" 
               className="w-40 h-14 object-contain transition-transform duration-300 hover:scale-105"
             />
-          )}
+          </Link>
         </div>
 
         {/* Navigation links */}
         <div className="hidden md:flex items-center gap-8">
-          {items.map((item, index) => {
-            const Icon = item.icon; // If an icon is defined, use it
+          {navItems.map((item, index) => {
+            const Icon = item.icon;
             return (
-              <div 
-                key={index}
-                className="relative group cursor-pointer"
-              >
-                {role === 'organization' ? (
-                  <a 
-                    href={item.href} 
-                    className="text-gray-300 text-sm font-medium uppercase tracking-wider transition-all duration-300 hover:text-emerald-400"
-                    style={{ fontFamily: "'Inter', 'Segoe UI', sans-serif", letterSpacing: '0.5px' }}
-                  >
-                    {Icon ? <Icon className="w-5 h-5 inline" /> : item.label}
-                  </a>
-                ) : (
-                  <Link 
-                    to={item.to} 
-                    className="text-gray-300 text-sm font-medium uppercase tracking-wider transition-all duration-300 hover:text-emerald-400"
-                    style={{ fontFamily: "'Inter', 'Segoe UI', sans-serif", letterSpacing: '0.5px' }}
-                  >
-                    {Icon ? <Icon className="w-5 h-5 inline" /> : item.label}
-                  </Link>
-                )}
+              <div key={index} className="relative group cursor-pointer">
+                <Link
+                  to={item.to}
+                  className="text-gray-300 text-sm font-medium uppercase tracking-wider transition-all duration-300 hover:text-emerald-400"
+                  style={{ fontFamily: "'Inter', 'Segoe UI', sans-serif", letterSpacing: '0.5px' }}
+                >
+                  {Icon ? <Icon className="w-5 h-5 inline" /> : item.label}
+                </Link>
                 <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-emerald-400 transition-all duration-300 group-hover:w-full"></span>
               </div>
             );
@@ -100,23 +64,17 @@ const Navbar = ({ transparent = false}) => {
 
       {menuOpen && (
         <div className="md:hidden mt-4 mx-4 rounded-xl bg-white/5 backdrop-blur-lg border border-white/10 flex flex-col gap-4 px-6 py-6">
-          {items.map((item, index) => {
+          {navItems.map((item, index) => {
             const Icon = item.icon;
-            return role === 'organization' ? (
-              <a
-                key={index}
-                href={item.href}
-                className="text-gray-300 text-sm font-medium hover:text-emerald-400 transition"
-              >
-                {Icon ? <Icon className="inline w-4 h-4 mr-2" /> : item.label}
-              </a>
-            ) : (
+            return (
               <Link
                 key={index}
                 to={item.to}
                 className="text-gray-300 text-sm font-medium hover:text-emerald-400 transition"
+                onClick={() => setMenuOpen(false)}
               >
-                {Icon ? <Icon className="inline w-4 h-4 mr-2" /> : item.label}
+                {Icon && <Icon className="inline w-4 h-4 mr-2" />}
+                {item.label}
               </Link>
             );
           })}
