@@ -1,42 +1,7 @@
-import React, { useState } from 'react';
-import { MapPin, Cloud, Wind, Droplets, Eye, Gauge, AlertTriangle, TrendingUp, ThermometerSun, Leaf, Factory, Car, Search } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MapPin, Cloud, Wind, Droplets, Eye, Gauge, AlertTriangle, TrendingUp, ThermometerSun, Leaf, Factory, Car, Search, RefreshCw } from 'lucide-react';
+import { getLatestWeather } from '../services/api';
 
-// Mock climate data - will be replaced with API data later
-const mockClimateData = {
-  location: {
-    city: "Pātan",
-    state: "Bagmati Province",
-    country: "Nepal",
-    coordinates: { lat: 27.6725, lon: 85.3268 }
-  },
-  weather: {
-    temperature: 18,
-    feelsLike: 16,
-    condition: "Partly Cloudy",
-    humidity: 65,
-    windSpeed: 12,
-    visibility: 8,
-    pressure: 1013,
-    uvIndex: 6
-  },
-  airQuality: {
-    aqi: 156,
-    category: "Unhealthy",
-    pm25: 62,
-    pm10: 98,
-    no2: 45,
-    o3: 32,
-    co: 1.2,
-    so2: 15
-  },
-  forecast: [
-    { day: "Mon", temp: 19, condition: "Sunny", aqi: 142 },
-    { day: "Tue", temp: 20, condition: "Cloudy", aqi: 158 },
-    { day: "Wed", temp: 18, condition: "Rainy", aqi: 134 },
-    { day: "Thu", temp: 17, condition: "Cloudy", aqi: 145 },
-    { day: "Fri", temp: 19, condition: "Sunny", aqi: 150 }
-  ]
-};
 
 const getAQIColor = (aqi) => {
   if (aqi <= 50) return 'from-green-500 to-emerald-500';
@@ -54,24 +19,7 @@ const getAQITextColor = (aqi) => {
   return 'text-purple-600';
 };
 
-const MetricCard = ({ icon: Icon, label, value, unit, color = "from-emerald-500 to-teal-500" }) => (
-  <div className="relative group">
-    <div className="absolute inset-0 bg-gradient-to-r from-emerald-100/50 to-teal-100/50 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-    <div className="relative bg-white rounded-xl p-5 border border-gray-200 hover:border-emerald-300 hover:shadow-lg transition-all duration-300">
-      <div className="flex items-start justify-between mb-3">
-        <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${color} flex items-center justify-center shadow-md`}>
-          <Icon className="w-5 h-5 text-white" />
-        </div>
-      </div>
-      <div className="text-2xl font-bold text-gray-800 mb-1" style={{ fontFamily: "'Inter', sans-serif" }}>
-        {value}<span className="text-lg text-gray-500 ml-1">{unit}</span>
-      </div>
-      <div className="text-sm text-gray-600 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>
-        {label}
-      </div>
-    </div>
-  </div>
-);
+
 
 const PollutantBar = ({ name, value, max, unit }) => {
   const percentage = (value / max) * 100;
@@ -97,66 +45,103 @@ const PollutantBar = ({ name, value, max, unit }) => {
 
 export default function ClimateDashboard() {
   const [location, setLocation] = useState('');
-  const [data, setData] = useState(mockClimateData);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSearch = () => {
-    // In future, this will call API with the location
-    console.log('Searching for:', location);
-    // For now, just use mock data
+  const getWeather = async () => {
+    try {
+      setLoading(true);
+
+      const response = await getLatestWeather("ilam");
+      const current = response.data.current;
+      const air = current.air_quality;
+
+      const calculateSimpleAQI = (pm2_5) => {
+        if (pm2_5 <= 12.0) return Math.round((50 / 12.0) * pm2_5);
+        if (pm2_5 <= 35.4) return Math.round(((100 - 51) / (35.4 - 12.1)) * (pm2_5 - 12.1) + 51);
+        if (pm2_5 <= 55.4) return Math.round(((150 - 101) / (55.4 - 35.5)) * (pm2_5 - 35.5) + 101);
+        if (pm2_5 <= 150.4) return Math.round(((200 - 151) / (150.4 - 55.5)) * (pm2_5 - 55.5) + 151);
+        if (pm2_5 <= 250.4) return Math.round(((300 - 201) / (250.4 - 150.5)) * (pm2_5 - 150.5) + 201);
+        return 301;
+      };
+
+      const calculateCategory = (aqi) => {
+        if (aqi <= 50) return "Good";
+        if (aqi <= 100) return "Moderate";
+        if (aqi <= 150) return "Unhealthy for Sensitive Groups";
+        if (aqi <= 200) return "Unhealthy";
+        if (aqi <= 300) return "Very Unhealthy";
+        return "Hazardous";
+      };
+
+      const aqi = calculateSimpleAQI(air.pm2_5);
+
+      setData({
+        location: {
+          city: "Kathmandu",
+          state: "Bagmati Province",
+          country: "Nepal",
+        },
+        weather: {
+          temperature: current.temp_c,
+          feelsLike: current.feelslike_c,
+          condition: current.condition.text,
+          humidity: current.humidity,
+          windSpeed: current.wind_kph,
+          visibility: current.vis_km,
+          pressure: current.pressure_mb,
+          uvIndex: current.uv,
+        },
+        airQuality: {
+          aqi,
+          category: calculateCategory(aqi),
+          pm2_5: air.pm2_5,
+          pm10: air.pm10,
+          no2: air.no2,
+          o3: air.o3,
+          co: air.co,
+          so2: air.so2,
+        },
+      });
+    } catch (error) {
+      console.error("Failed to fetch weather data", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    getWeather();
+  }, []);
+
+  if (loading) return <div className="p-10">Loading climate data...</div>;
+  if (!data) return <div className="p-10">No climate data available</div>;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-emerald-50/30 to-teal-50/30">
       <div className="p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-800 mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Climate Dashboard
-            </h1>
-            <p className="text-gray-600" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Real-time weather and air quality information
-            </p>
-          </div>
-
-          {/* Location Search */}
-          <div className="relative group mb-8">
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-100/50 to-teal-100/50 rounded-2xl blur-xl" />
-            <div className="relative bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-              <div className="flex gap-3">
-                <div className="flex-1 relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Enter city name..."
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                    className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 text-gray-800"
-                    style={{ fontFamily: "'Inter', sans-serif" }}
-                  />
-                </div>
-                <button
-                  onClick={handleSearch}
-                  className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-md flex items-center gap-2"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
-                  <Search className="w-5 h-5" />
-                  Search
-                </button>
-              </div>
-            </div>
-          </div>
 
           {/* Current Location */}
           <div className="relative group mb-6">
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-100/50 to-teal-100/50 rounded-xl blur-lg" />
             <div className="relative bg-white rounded-xl p-5 shadow-md border border-gray-200">
-              <div className="flex items-center gap-2 text-gray-700">
-                <MapPin className="w-5 h-5 text-emerald-600" />
-                <span className="font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  {data.location.city}, {data.location.state}, {data.location.country}
-                </span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-gray-700">
+                  <MapPin className="w-5 h-5 text-emerald-600" />
+                  <span className="font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    {data.location.city}, {data.location.state}, {data.location.country}
+                  </span>
+                </div>
+
+                <button
+                  onClick={getWeather}
+                  className="group flex items-center gap-2 px-3 py-1.5 rounded-lg border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 transition-all duration-300"
+                  title="Refresh weather"
+                >
+                  <RefreshCw className={`w-4 h-4 text-emerald-600 ${loading ? 'animate-spin' : 'group-hover:rotate-180'} transition-transform duration-500`} />
+                  <span className="text-sm font-medium text-emerald-700">Refresh</span>
+                </button>
               </div>
             </div>
           </div>
@@ -278,39 +263,9 @@ export default function ClimateDashboard() {
                   </div>
 
                   <div className="space-y-3">
-                    <PollutantBar name="PM2.5" value={data.airQuality.pm25} max={100} unit="μg/m³" />
+                    <PollutantBar name="PM2.5" value={data.airQuality.pm2_5} max={100} unit="μg/m³" />
                     <PollutantBar name="PM10" value={data.airQuality.pm10} max={150} unit="μg/m³" />
                     <PollutantBar name="NO₂" value={data.airQuality.no2} max={100} unit="ppb" />
-                    <PollutantBar name="O₃" value={data.airQuality.o3} max={100} unit="ppb" />
-                  </div>
-                </div>
-              </div>
-
-              {/* 5-Day Forecast */}
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-emerald-100/50 to-teal-100/50 rounded-2xl blur-xl" />
-                <div className="relative bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
-                  <h2 className="text-xl font-bold text-gray-800 mb-6" style={{ fontFamily: "'Inter', sans-serif" }}>
-                    5-Day Forecast
-                  </h2>
-                  <div className="grid grid-cols-5 gap-4">
-                    {data.forecast.map((day, idx) => (
-                      <div 
-                        key={idx} 
-                        className="text-center p-4 bg-gray-50 rounded-xl border border-gray-200 hover:border-emerald-300 hover:shadow-md transition-all duration-300"
-                      >
-                        <div className="font-semibold text-gray-800 mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>
-                          {day.day}
-                        </div>
-                        <div className="text-2xl mb-2">☁️</div>
-                        <div className="text-lg font-bold text-gray-800 mb-1" style={{ fontFamily: "'Inter', sans-serif" }}>
-                          {day.temp}°C
-                        </div>
-                        <div className={`text-xs font-semibold ${getAQITextColor(day.aqi)}`} style={{ fontFamily: "'Inter', sans-serif" }}>
-                          AQI {day.aqi}
-                        </div>
-                      </div>
-                    ))}
                   </div>
                 </div>
               </div>
@@ -375,6 +330,7 @@ export default function ClimateDashboard() {
                   <h3 className="font-bold text-gray-800 mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
                     Main Pollutants
                   </h3>
+
                   <div className="space-y-3">
                     <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
                       <div className="flex items-center gap-3">

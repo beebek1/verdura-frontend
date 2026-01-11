@@ -29,8 +29,9 @@ const BlogCard = ({
     }
   }
 
-    // console.log(authorImage)
-    console.log(author)
+  const handleUpVotes = () =>{
+
+  }
 
 
   return (
@@ -60,13 +61,14 @@ const BlogCard = ({
 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-gray-500 text-sm">
-          <ArrowBigUpDash size={18} />
+          <ArrowBigUpDash size={18} onClick={handleUpVotes}/>
           <span className='font-bold'>{upvotes}</span>
         </div>
 
         <Link to={`/blogs/${id}`} className='bg-teal-600 hover:bg-teal-700 text-white text-sm px-4 py-2 rounded transition-colors'
         
             state={{
+              id,
             author,
             authorImage,
             badge,

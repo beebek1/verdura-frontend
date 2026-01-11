@@ -1,15 +1,14 @@
 import { ArrowLeft, Eye, Calendar, Tag } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom';
+import { upVoteBlog } from '../services/api';
 
 const BlogDetail = () => {
 
   const navigate = useNavigate();
   const {state} = useLocation();
-  if(!state){
-    return console.log("fuck you bitch")
-  }
 
   const{
+    id,
     author,
     authorImage,
     badge,
@@ -22,7 +21,6 @@ const BlogDetail = () => {
     coverImage
   } = state
 
-  console.log(content)
 
   const handleShare = () => {
     if (navigator.share) {
@@ -39,9 +37,21 @@ const BlogDetail = () => {
     }
   }
 
+  //handles upvotes
+  const handleUpVotes = async(id) => {
+    const response = await upVoteBlog(id);
+
+    if(response.status === 200){
+      console.log("yess new upvote")
+    }
+
+  }
+
+  //navigate to the all blogs
   const navigateRoute = () =>{
     navigate('/blogs')
   }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -123,7 +133,7 @@ const BlogDetail = () => {
               </svg>
             </div>
             <div className="flex flex-col items-start">
-              <span className="text-xs text-gray-500 group-hover:text-teal-600 transition-colors">Upvote</span>
+              <span className="text-xs text-gray-500 group-hover:text-teal-600 transition-colors" >Upvote</span>
               <span className="text-lg font-semibold text-gray-900">{upvotes}</span>
             </div>
           </button>
